@@ -21,11 +21,13 @@ prefix = modality + "_" + anatomy + "_"
 
 nii_path = "data/FLARE22Train/images"  # path to the nii images
 gt_path = "data/FLARE22Train/labels"  # path to the ground truth
-npy_path = "data/npy/" + prefix[:-1]
+npy_path = "data/FLARE22_npy/" + prefix[:-1]
 os.makedirs(join(npy_path, "gts"), exist_ok=True)
 os.makedirs(join(npy_path, "imgs"), exist_ok=True)
 
+# 针对不同数据集进行修改
 image_size = 1024
+# 二维切片及三维对象中小对象的阈值？
 voxel_num_thre2d = 100
 voxel_num_thre3d = 1000
 
@@ -67,7 +69,7 @@ for name in tqdm(names[:40]):  # use the remaining 10 cases for validation
         )
         # put the tumor instances back to gt_data_ori
         gt_data_ori[tumor_inst > 0] = (
-            tumor_inst[tumor_inst > 0] + np.max(gt_data_ori) + 1
+                tumor_inst[tumor_inst > 0] + np.max(gt_data_ori) + 1
         )
 
     # exclude the objects with less than 1000 pixels in 3D
